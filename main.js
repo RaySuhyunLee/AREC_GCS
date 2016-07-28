@@ -1,4 +1,5 @@
 const {app, BrowserWindow, ipcMain} = require('electron');
+const SerialPort = require('serialport');
 
 let win
 
