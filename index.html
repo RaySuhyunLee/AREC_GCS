@@ -10,27 +10,34 @@
     <input type="text"></input>
     <button id="port-sync-button">Sync</button>
     <select id="port-selector"></select>
+    <button id="connect-button">Connect</button>
     <script>
       window.$ = window.jQuery = require('jquery');
+      const SerialPort = require('serialport');
       const {ipcRenderer} = require('electron');
 
-      $('#port-sync-button').on('click', (v) => {
-        ipcRenderer.send('sync-port', '');
-      });
+      var port = null;
 
-      ipcRenderer.on('port-synced', (event, arg) => {
-        console.log('sync complete: ' + arg);
-        let portList = JSON.parse(arg);
-        portList.forEach((port) => {
-          $('#port-selector').append("<option>" + port + "</option>");
+      /* serial port */
+
+      $('#port-sync-button').on('click', (v) => {
+        SerialPort.list((err, ports) => {
+          $('#port-selector').empty();
+          ports.forEach((port) => {
+            $('#port-selector').append("<option>" + port.comName + "</option>");
+          });
         });
       });
 
-      ipcRenderer.on('async-reply', (event, arg) => {
-        console.log(arg);
+      $('#connect-button').on('click', (v) => {
+        port = new SerialPort($('#port-selector').val(), {
+          parser: SerialPort.parsers.readline('c');
+        }, (err) => {
+          if (err) {
+            console.log("Error: " + err.message);
+          }
+        });
       });
-
-      ipcRenderer.send('async-msg', 'ping');
     </script>
   </body>
 </html>

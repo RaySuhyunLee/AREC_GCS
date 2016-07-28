@@ -17,25 +17,4 @@ function createWindow() {
   });
 }
 
-ipcMain.on('sync-port', (event, arg) => {
-  SerialPort.list((err, ports) => {
-    let portList = [];
-    ports.forEach((port) => {
-      portList.push(port.comName);
-      console.log(port.comName);
-    });
-    event.sender.send('port-synced', JSON.stringify(portList));
-  });
-});
-
-ipcMain.on('async-msg', (event, arg) => {
-  console.log(arg);
-  event.sender.send('async-reply', 'pong');
-});
-
-ipcMain.on('sync-msg', (event, arg) => {
-  console.log(arg);
-  event.returnValue = 'pong';
-});
-
 app.on('ready', createWindow);
