@@ -8,4 +8,18 @@
 
 <body>
   <p>Hello, AREC!</p>
+  <input type="text"></input>
+  <button id="button">click me!</button>
+  <script>
+    const {ipcRenderer} = require('electron');
+    console.log(ipcRenderer.sendSync('sync-msg', 'ping'));
+
+    ipcRenderer.on('async-reply', (event, arg) => {
+      console.log(arg);
+    });
+
+    ipcRenderer.send('async-msg', 'ping');
+
+    document.getElementById('button').addEventListener('click', () => { alert("i'm clicked!"); });
+  </script>
 </body>
