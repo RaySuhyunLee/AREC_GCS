@@ -1,13 +1,7 @@
 const {app, BrowserWindow, ipcMain} = require('electron');
 const SerialPort = require('serialport');
 
-SerialPort.list((err, ports) => {
-  ports.forEach((port) => {
-    console.log(port.comName);
-  });
-});
-
-let win
+let win;
 
 function createWindow() {
   win = new BrowserWindow({width: 800, height: 600, show: false});
@@ -22,6 +16,17 @@ function createWindow() {
     win = null;
   });
 }
+
+ipcMain.on('sync-port', (event, arg) => {
+  SerialPort.list((err, ports) => {
+    let portList = [];
+    ports.forEach((port) => {
+      portList.push(port.comName);
+      console.log(port.comName);
+    });
+    event.sender.send('port-synced', JSON.stringify(portList));
+  });
+});
 
 ipcMain.on('async-msg', (event, arg) => {
   console.log(arg);

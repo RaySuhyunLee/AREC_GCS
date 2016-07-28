@@ -4,22 +4,33 @@
     <meta charset="UTF-8">
     <title>AREC_GCS</title>
   </head>
+
+  <body>
+    <p>Hello, AREC!</p>
+    <input type="text"></input>
+    <button id="port-sync-button">Sync</button>
+    <select id="port-selector"></select>
+    <script>
+      window.$ = window.jQuery = require('jquery');
+      const {ipcRenderer} = require('electron');
+
+      $('#port-sync-button').on('click', (v) => {
+        ipcRenderer.send('sync-port', '');
+      });
+
+      ipcRenderer.on('port-synced', (event, arg) => {
+        console.log('sync complete: ' + arg);
+        let portList = JSON.parse(arg);
+        portList.forEach((port) => {
+          $('#port-selector').append("<option>" + port + "</option>");
+        });
+      });
+
+      ipcRenderer.on('async-reply', (event, arg) => {
+        console.log(arg);
+      });
+
+      ipcRenderer.send('async-msg', 'ping');
+    </script>
+  </body>
 </html>
-
-<body>
-  <p>Hello, AREC!</p>
-  <input type="text"></input>
-  <button id="button">click me!</button>
-  <script>
-    const {ipcRenderer} = require('electron');
-    console.log(ipcRenderer.sendSync('sync-msg', 'ping'));
-
-    ipcRenderer.on('async-reply', (event, arg) => {
-      console.log(arg);
-    });
-
-    ipcRenderer.send('async-msg', 'ping');
-
-    document.getElementById('button').addEventListener('click', () => { alert("i'm clicked!"); });
-  </script>
-</body>
