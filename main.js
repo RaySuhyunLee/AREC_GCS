@@ -1,6 +1,12 @@
 const {app, BrowserWindow, ipcMain} = require('electron');
 const SerialPort = require('serialport');
 
+SerialPort.list((err, ports) => {
+  ports.forEach((port) => {
+    console.log(port.comName);
+  });
+});
+
 let win
 
 function createWindow() {
