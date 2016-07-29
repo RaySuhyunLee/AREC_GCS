@@ -1,4 +1,5 @@
 const SerialPort = require('serialport');
+const PacketParser = require('./parser.js');
 
 var port = null;
 
@@ -19,4 +20,15 @@ $('#connect-button').on('click', (v) => {
       console.log("Error: " + err.message);
     }
   });
+
+  port.on('data', (buf) => {
+    var data = PacketParser.parse(buf);
+  });
 });
+
+function sendCommand(command, callback) {
+  port.write(command, () => {
+    // TODO write log
+    if (callback) callback();
+  });
+}
