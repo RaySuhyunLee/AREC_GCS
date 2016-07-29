@@ -13,21 +13,30 @@ $('#port-sync-button').on('click', (v) => {
 });
 
 $('#connect-button').on('click', (v) => {
-  port = new SerialPort($('#port-selector').val(), {
-    parser: SerialPort.parsers.readline('c')
+  var portName = $('#port-selector').val();
+  var baudRate = parseInt($('#baudrate-selector').val());
+  port = new SerialPort(portName, {
+    parser: SerialPort.parsers.readline('c'),
+    baudRate: baudRate,
   }, (err) => {
     if (err) {
       console.log("Error: " + err.message);
     }
-  });
 
-  port.on('data', (buf) => {
+    console.log('open serial');
+    
+  });
+  
+  port.on('data', function (buf) {
+    console.log(buf);
     var data = PacketParser.parse(buf);
+    console.log(data);
   });
 });
 
 function sendCommand(command, callback) {
   port.write(command, () => {
+    console.log("send> " + command);
     // TODO write log
     if (callback) callback();
   });
