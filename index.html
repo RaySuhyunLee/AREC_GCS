@@ -13,31 +13,9 @@
     <button id="connect-button">Connect</button>
     <script>
       window.$ = window.jQuery = require('jquery');
-      const SerialPort = require('serialport');
       const {ipcRenderer} = require('electron');
-
-      var port = null;
-
-      /* serial port */
-
-      $('#port-sync-button').on('click', (v) => {
-        SerialPort.list((err, ports) => {
-          $('#port-selector').empty();
-          ports.forEach((port) => {
-            $('#port-selector').append("<option>" + port.comName + "</option>");
-          });
-        });
-      });
-
-      $('#connect-button').on('click', (v) => {
-        port = new SerialPort($('#port-selector').val(), {
-          parser: SerialPort.parsers.readline('c');
-        }, (err) => {
-          if (err) {
-            console.log("Error: " + err.message);
-          }
-        });
-      });
     </script>
+
+    <script src="./serial.js"></script>
   </body>
 </html>
