@@ -28,39 +28,37 @@
   <body>
     <div id="navbar" class="navbar navbar-default">
       <div class="container-fluid">
-        <button type="button" class="btn btn-default" id="port-sync-button">Sync</button>
-        <div class="dropdown">
-          <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" >
-            dropdown
-            <span class="caret"></span>
-          </button>
-          <ul class="dropdown-menu" aria-labelledby="" />
-            <li>blabla</li>
-          </ul>
-        </div>
+        <button type="button" class="btn btn-default" id="port-sync-button">시리얼 포트 조회</button>
         <select class="" id="port-selector"></select>
         <select class="" id="baudrate-selector">
           <option>9600</option>
           <option>19200</option>
           <option>115200</option>
         </select>
-        <button type="button" class="btn btn-default" id="connect-button">Connect</button>
+        <button type="button" class="btn btn-default" id="connect-button">접속</button>
       </div>
     </div>
 
     <div class="container-fluid">
       <div id="panel-container">
-        <div class="item" >
-          <table class="table">
-            <tr>
-              <td>10분 평균 방사능</td>
-              <td>10.1</td>
-            </tr>
-            <tr>
-              <td>1분 평균 방사능</td>
-              <td>100.45</td>
-            </tr>
-          </table>
+        <div class="item">
+          <div class="panel panel-default">
+            <div class="panel-heading">
+              <h3 class="panel-title">센서 정보</h3>
+            </div>
+            <div class="panel-body">
+              <table class="table">
+                <tr>
+                  <td>10분 평균 방사능</td>
+                  <td>10.1</td>
+                </tr>
+                <tr>
+                  <td>1분 평균 방사능</td>
+                  <td>100.45</td>
+                </tr>
+              </table>
+            </div>
+          </div>
         </div>
         <div class="item">
           <div class="panel panel-default">
@@ -68,10 +66,16 @@
               <h3 class="panel-title">위성 모드</h3>
             </div>
             <div class="panel-body">
-              <div class="btn-group">
-                <button class="btn btn-default active" >발사 준비</button>
-                <button class="btn btn-default">전기 아끼기</button>
-                <button class="btn btn-default">위성 찾기</button>
+              <div class="btn-group btn-group-justified">
+                <div class="btn-group">
+                  <button class="btn btn-default active" >발사 준비</button>
+                </div>
+                <div class="btn-group">
+                  <button class="btn btn-default">전기 아끼기</button>
+                </div>
+                <div class="btn-group">
+                  <button class="btn btn-default">위성 찾기</button>
+                </div>
               </div>
             </div>
           </div>
@@ -92,7 +96,10 @@
               <h3 class="panel-title">전력 정보</h3>
             </div>
             <div class="panel-body">
-              <canvas id="myChart"></canvas>
+              <canvas id="battery-voltage-chart" height="90px"></canvas>
+              <canvas id="solar-voltage-chart" height="90px"></canvas>
+              <canvas id="current-dissapation-chart" height="90px"></canvas>
+              <canvas id="solar-current-chart" height="90px"></canvas>
             </div>
           </div>
         </div>
@@ -102,7 +109,7 @@
               <h3 class="panel-title">방사능 정보</h3>
             </div>
             <div class="panel-body">
-              <canvas id="myChart"></canvas>
+              <canvas id="radioactive-chart"></canvas>
             </div>
           </div>
         </div>
@@ -119,7 +126,6 @@
     <script>
       var wall = new Freewall("#panel-container");
       wall.reset({
-        animate: true,
         fixSize: true,
         draggable: true,
         cellW: 400,
@@ -129,20 +135,8 @@
         }
       });
       wall.fitWidth();
-
-      var chartData = [12, 19, 3, 5, 2, 3];
-
-      var chart = new Chart($("#myChart"), {
-        type: 'line',
-        data: {
-					labels: ["", "", "", "", "", ""],
-          datasets: [{
-              data: chartData,
-              borderWidth: 1
-          }]
-        }
-      });
     </script>
     <script src="./js/index.js"></script>
+    <script src="./js/chart.js"></script>
   </body>
 </html>
