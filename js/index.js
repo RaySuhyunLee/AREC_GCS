@@ -2,6 +2,8 @@ const SerialPort = require('serialport');
 const PacketParser = require('./parser.js');
 
 var port = null;
+var satData = null;
+var lastUpdate = null;
 
 $('#port-sync-button').on('click', (v) => {
   SerialPort.list((err, ports) => {
@@ -28,9 +30,9 @@ $('#connect-button').on('click', (v) => {
   });
   
   port.on('data', function (buf) {
-    console.log(buf);
-    var data = PacketParser.parse(buf);
-    console.log(data);
+    data = PacketParser.parse(buf);
+    lastUpdate = new Date();
+    console.log("recv> " + data);
   });
 });
 
