@@ -11,6 +11,8 @@
     "electron-rebuild": "^1.1.5"
   },
   "dependencies": {
+    "bootstrap": "^3.3.7",
+    "chart.js": "^2.2.0",
     "jquery": "^3.1.0",
     "serialport": "^4.0.1"
   }

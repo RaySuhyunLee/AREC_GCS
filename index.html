@@ -3,24 +3,146 @@
   <head>
     <meta charset="UTF-8">
     <title>AREC_GCS</title>
+    <link rel="stylesheet" href="node_modules/bootstrap/dist/css/bootstrap.min.css" />
+    <style>
+      body {
+        /* background: #212222;
+        color: #d0d0d0; */
+      }
+      .button {
+        color: #d0d0d0;
+        background: #252525;
+        border: 1px solid #505050;
+      }
+      #menu {
+        padding: 20px;
+        position: fixed;
+      }
+      .item {
+        width: 400px;
+        height: auto;
+      }
+    </style>
   </head>
 
   <body>
-    <p>Hello, AREC!</p>
-    <input type="text"></input>
-    <button id="port-sync-button">Sync</button>
-    <select id="port-selector"></select>
-    <select id="baudrate-selector">
-      <option>9600</option>
-      <option>19200</option>
-      <option>115200</option>
-    </select>
-    <button id="connect-button">Connect</button>
+    <div id="navbar" class="navbar navbar-default">
+      <div class="container-fluid">
+        <button type="button" class="btn btn-default" id="port-sync-button">Sync</button>
+        <div class="dropdown">
+          <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" >
+            dropdown
+            <span class="caret"></span>
+          </button>
+          <ul class="dropdown-menu" aria-labelledby="" />
+            <li>blabla</li>
+          </ul>
+        </div>
+        <select class="" id="port-selector"></select>
+        <select class="" id="baudrate-selector">
+          <option>9600</option>
+          <option>19200</option>
+          <option>115200</option>
+        </select>
+        <button type="button" class="btn btn-default" id="connect-button">Connect</button>
+      </div>
+    </div>
+
+    <div class="container-fluid">
+      <div id="panel-container">
+        <div class="item" >
+          <table class="table">
+            <tr>
+              <td>10분 평균 방사능</td>
+              <td>10.1</td>
+            </tr>
+            <tr>
+              <td>1분 평균 방사능</td>
+              <td>100.45</td>
+            </tr>
+          </table>
+        </div>
+        <div class="item">
+          <div class="panel panel-default">
+            <div class="panel-heading">
+              <h3 class="panel-title">위성 모드</h3>
+            </div>
+            <div class="panel-body">
+              <div class="btn-group">
+                <button class="btn btn-default active" >발사 준비</button>
+                <button class="btn btn-default">전기 아끼기</button>
+                <button class="btn btn-default">위성 찾기</button>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="item">
+          <div class="panel panel-default">
+            <div class="panel-heading">
+              <h3 class="panel-title">위성 작동 시간</h1>
+            </div>
+            <div class="panel-body">
+              300초
+            </div>
+          </div>
+        </div>
+        <div class="item">
+          <div class="panel panel-default">
+            <div class="panel-heading">
+              <h3 class="panel-title">전력 정보</h3>
+            </div>
+            <div class="panel-body">
+              <canvas id="myChart"></canvas>
+            </div>
+          </div>
+        </div>
+        <div class="item">
+          <div class="panel panel-default">
+            <div class="panel-heading">
+              <h3 class="panel-title">방사능 정보</h3>
+            </div>
+            <div class="panel-body">
+              <canvas id="myChart"></canvas>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
     <script>
       window.$ = window.jQuery = require('jquery');
       const {ipcRenderer} = require('electron');
+      require('bootstrap');
+      const Chart = require('./node_modules/chart.js/dist/Chart.bundle.min.js');
     </script>
+    <script src="./js/freewall.js"></script>
+    <script>
+      var wall = new Freewall("#panel-container");
+      wall.reset({
+        animate: true,
+        fixSize: true,
+        draggable: true,
+        cellW: 400,
+        cellH: "auto",
+        onResize: function() {
+          this.fitWidth();
+        }
+      });
+      wall.fitWidth();
 
+      var chartData = [12, 19, 3, 5, 2, 3];
+
+      var chart = new Chart($("#myChart"), {
+        type: 'line',
+        data: {
+					labels: ["", "", "", "", "", ""],
+          datasets: [{
+              data: chartData,
+              borderWidth: 1
+          }]
+        }
+      });
+    </script>
     <script src="./js/index.js"></script>
   </body>
 </html>
