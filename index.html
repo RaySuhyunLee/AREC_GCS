@@ -28,7 +28,7 @@
   <body>
     <div id="navbar" class="navbar navbar-default">
       <div class="container-fluid">
-        <button type="button" class="btn btn-default" id="port-sync-button">시리얼 포트 조회</button>
+        <button type="button" class="btn btn-default" id="port-sync-button">포트 조회</button>
         <select class="" id="port-selector"></select>
         <select class="" id="baudrate-selector">
           <option>9600</option>
@@ -106,7 +106,8 @@
               <h3 class="panel-title">방사능 정보</h3>
             </div>
             <div class="panel-body">
-              <canvas id="radioactive-chart"></canvas>
+              <canvas id="radioactive-chart-1min"></canvas>
+              <canvas id="radioactive-chart-10min"></canvas>
             </div>
           </div>
         </div>

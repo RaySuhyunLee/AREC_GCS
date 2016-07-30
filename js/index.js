@@ -34,6 +34,7 @@ $.getJSON("packet.json", (json) => {
 
   initSerial();
   initAngular();
+  initChart();
 });
 
 // serial port communication
@@ -83,6 +84,18 @@ $('#connect-button').on('click', (v) => {
       panelAppScope.data = satData;
       panelAppScope.$apply();
     }
+
+    charts.forEach((chart, i) => {
+      var newData = satData[chartPacketIndexs[i]];
+      var chartData = chart.data.datasets[0].data;
+      if (chartData.length > 10) {
+        chartData.shift();
+        chart.data.labels.shift();
+      }
+      chartData.push(newData);
+      chart.data.labels.push(lastUpdate.getUTCMilliseconds());
+      chart.update();
+    });
   });
 });
 
@@ -96,32 +109,40 @@ function sendCommand(command, callback) {
 
 // draw charts
 
-var chartData = [12, 19, 3, 5, 2, 3];
-
 const chartIds = [
   "#battery-voltage-chart",
   "#solar-voltage-chart",
   "#current-dissapation-chart",
   "#solar-current-chart",
-  "#radioactive-chart"
+  "#radioactive-chart-1min",
+  "#radioactive-chart-10min",
 ];
 
-charts = []
+// index of packet which chart refers to
+const chartPacketIndexs = [15, 14, 13, 12, 11, 10];
 
-chartIds.forEach((chartId) => {
-  charts.push(new Chart($(chartId), {
-    type: 'line',
-    data: {
-      labels: ["", "", "", "", "", ""],
-      datasets: [{
-          data: chartData,
-          borderWidth: 1
-      }]
-    },
-    options: {
-      legend: {
-        display: false
+var charts = []
+
+function initChart() {
+  chartIds.forEach((chartId, idx) => {
+    charts.push(new Chart($(chartId), {
+      type: 'line',
+      data: {
+        labels: [],
+        datasets: [{
+            data: [],
+            borderWidth: 1
+        }]
+      },
+      options: {
+        title: {
+          display: true,
+          text: packetList[chartPacketIndexs[idx]].name
+        },
+        legend: {
+          display: false
+        }
       }
-    }
-  }));
-});
+    }));
+  });
+}
