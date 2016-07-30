@@ -88,13 +88,13 @@ $('#connect-button').on('click', (v) => {
     charts.forEach((chart, i) => {
       var newData = satData[chartPacketIndexs[i]];
       var chartData = chart.data.datasets[0].data;
-      if (chartData.length > 10) {
+      if (chartData.length > 100) {
         chartData.shift();
         chart.data.labels.shift();
       }
       chartData.push(newData);
       chart.data.labels.push(lastUpdate.getUTCMilliseconds());
-      chart.update();
+      chart.update(0, true);
     });
   });
 });
@@ -131,7 +131,8 @@ function initChart() {
         labels: [],
         datasets: [{
             data: [],
-            borderWidth: 1
+            borderWidth: 1,
+            pointRadius: 0
         }]
       },
       options: {
@@ -141,6 +142,14 @@ function initChart() {
         },
         legend: {
           display: false
+        },
+        tooltips: {
+          enabled: false
+        },
+        scales: {
+          xAxes: [{
+            display: false
+          }]
         }
       }
     }));
