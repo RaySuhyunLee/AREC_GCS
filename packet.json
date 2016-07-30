@@ -1,0 +1,98 @@
+[
+  {
+    "name": "온도",
+    "signed": true,
+    "multiply": 0.01,
+    "unit": "°C"
+  },
+  {
+    "name": "습도",
+    "signed": false,
+    "multiply": 0.01,
+    "unit": "%"
+  },
+  {
+    "name": "Yaw",
+    "signed": true,
+    "multiply": 0.01,
+    "unit": "°"
+  },
+  {
+    "name": "Pitch",
+    "signed": true,
+    "multiply": 0.01,
+    "unit": "°"
+  },
+  {
+    "name": "Roll",
+    "signed": true,
+    "multiply": 0.01,
+    "unit": "°"
+  },
+  {
+    "name": "압력",
+    "signed": false,
+    "multiply": 0.01,
+    "unit": "mbar"
+  },
+  {
+    "name": "고도",
+    "signed": false,
+    "multiply": 0.01,
+    "unit": "m"
+  },
+  {
+    "name": "위도",
+    "signed": false,
+    "multiply": 0.00001,
+    "unit": "°"
+  },
+  {
+    "name": "경도",
+    "signed": false,
+    "multiply": 0.00001,
+    "unit": "°"
+  },
+  {
+    "name": "시간",
+    "signed": false,
+    "multiply": 1,
+    "unit": "초"
+  },
+  {
+    "name": "방사능 10분 평균",
+    "signed": false,
+    "multiply": 0.01,
+    "unit": "msv/h"
+  },
+  {
+    "name": "방사능 1분 평균",
+    "signed": false,
+    "multiply": 0.01,
+    "unit": "msv/h"
+  },
+  {
+    "name": "태양 전지 발전 전류",
+    "signed": false,
+    "multiply": 0.01,
+    "unit": "A"
+  },
+  {
+    "name": "기기 소모 전류",
+    "signed": false,
+    "multiply": 0.01,
+    "unit": "A"
+  },
+  {
+    "name": "태양 전지 발전 전압",
+    "signed": false,
+    "multiply": 0.01,
+    "unit": "V"
+  },
+  {
+    "name": "배터리 보유 전압",
+    "signed": false,
+    "multiply": 0.01,
+    "unit": "V"
+  }
+]
