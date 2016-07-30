@@ -1,9 +1,22 @@
+const Chart = require('./node_modules/chart.js/dist/Chart.bundle.min.js');
 const SerialPort = require('serialport');
 const PacketParser = require('./parser.js');
 
+// init freewall
+var wall = new Freewall("#panel-container");
+wall.reset({
+  fixSize: true,
+  draggable: true,
+  cellW: 400,
+  cellH: "auto",
+  onResize: function() {
+    this.fitWidth();
+  }
+});
+wall.fitWidth();
+
+// serial port communication
 var port = null;
-var satData = null;
-var lastUpdate = null;
 
 $('#port-sync-button').on('click', (v) => {
   SerialPort.list((err, ports) => {
@@ -30,9 +43,10 @@ $('#connect-button').on('click', (v) => {
   });
   
   port.on('data', function (buf) {
-    data = PacketParser.parse(buf);
-    lastUpdate = new Date();
+    var satData = PacketParser.parse(buf);
+    var lastUpdate = new Date();
     console.log("recv> " + data);
+
   });
 });
 
@@ -43,3 +57,35 @@ function sendCommand(command, callback) {
     if (callback) callback();
   });
 }
+
+// draw charts
+
+var chartData = [12, 19, 3, 5, 2, 3];
+
+const chartIds = [
+  "#battery-voltage-chart",
+  "#solar-voltage-chart",
+  "#current-dissapation-chart",
+  "#solar-current-chart",
+  "#radioactive-chart"
+];
+
+charts = []
+
+chartIds.forEach((chartId) => {
+  charts.push(new Chart($(chartId), {
+    type: 'line',
+    data: {
+      labels: ["", "", "", "", "", ""],
+      datasets: [{
+          data: chartData,
+          borderWidth: 1
+      }]
+    },
+    options: {
+      legend: {
+        display: false
+      }
+    }
+  }));
+});

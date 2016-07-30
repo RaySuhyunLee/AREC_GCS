@@ -120,23 +120,9 @@
       window.$ = window.jQuery = require('jquery');
       const {ipcRenderer} = require('electron');
       require('bootstrap');
-      const Chart = require('./node_modules/chart.js/dist/Chart.bundle.min.js');
     </script>
+    <script src="./node_modules/angular/angular.js"></script>
     <script src="./js/freewall.js"></script>
-    <script>
-      var wall = new Freewall("#panel-container");
-      wall.reset({
-        fixSize: true,
-        draggable: true,
-        cellW: 400,
-        cellH: "auto",
-        onResize: function() {
-          this.fitWidth();
-        }
-      });
-      wall.fitWidth();
-    </script>
     <script src="./js/index.js"></script>
-    <script src="./js/chart.js"></script>
   </body>
 </html>
