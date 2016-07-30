@@ -3,24 +3,124 @@
   <head>
     <meta charset="UTF-8">
     <title>AREC_GCS</title>
+    <link rel="stylesheet" href="node_modules/bootstrap/dist/css/bootstrap.min.css" />
+    <style>
+      body {
+        /* background: #212222;
+        color: #d0d0d0; */
+      }
+      .button {
+        color: #d0d0d0;
+        background: #252525;
+        border: 1px solid #505050;
+      }
+      #menu {
+        padding: 20px;
+        position: fixed;
+      }
+      .item {
+        width: 400px;
+        height: auto;
+      }
+    </style>
   </head>
 
   <body>
-    <p>Hello, AREC!</p>
-    <input type="text"></input>
-    <button id="port-sync-button">Sync</button>
-    <select id="port-selector"></select>
-    <select id="baudrate-selector">
-      <option>9600</option>
-      <option>19200</option>
-      <option>115200</option>
-    </select>
-    <button id="connect-button">Connect</button>
+    <div id="navbar" class="navbar navbar-default">
+      <div class="container-fluid">
+        <button type="button" class="btn btn-default" id="port-sync-button">포트 조회</button>
+        <select class="" id="port-selector"></select>
+        <select class="" id="baudrate-selector">
+          <option>9600</option>
+          <option>19200</option>
+          <option>115200</option>
+        </select>
+        <button type="button" class="btn btn-default" id="connect-button">접속</button>
+      </div>
+    </div>
+
+    <div class="container-fluid">
+      <div id="panel-container" ng-app="panelApp" ng-controller="panelController">
+        <div class="item">
+          <div class="panel panel-default">
+            <div class="panel-heading">
+              <h3 class="panel-title">정보</h3>
+            </div>
+            <div class="panel-body">
+              <table class="table">
+                <tr ng-repeat="value in values">
+                  <td>{{ value.name }}</td>
+                  <td>{{ data[$index] }}</td>
+                  <td>{{ value.unit }}</td>
+                </tr>
+              </table>
+            </div>
+          </div>
+        </div>
+        <div class="item">
+          <div class="panel panel-default">
+            <div class="panel-heading">
+              <h3 class="panel-title">모드</h3>
+            </div>
+            <div class="panel-body">
+              <div class="btn-group btn-group-justified">
+                <div class="btn-group">
+                  <button class="btn btn-default active" >발사 준비</button>
+                </div>
+                <div class="btn-group">
+                  <button class="btn btn-default">전기 아끼기</button>
+                </div>
+                <div class="btn-group">
+                  <button class="btn btn-default">위성 찾기</button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="item">
+          <div class="panel panel-default">
+            <div class="panel-heading">
+              <h3 class="panel-title">위성 작동 시간</h1>
+            </div>
+            <div class="panel-body">
+              {{ data[9] }} {{ values[9].unit }} 
+            </div>
+          </div>
+        </div>
+        <div class="item">
+          <div class="panel panel-default">
+            <div class="panel-heading">
+              <h3 class="panel-title">전력 정보</h3>
+            </div>
+            <div class="panel-body">
+              <canvas id="battery-voltage-chart" height="90px"></canvas>
+              <canvas id="solar-voltage-chart" height="90px"></canvas>
+              <canvas id="current-dissapation-chart" height="90px"></canvas>
+              <canvas id="solar-current-chart" height="90px"></canvas>
+            </div>
+          </div>
+        </div>
+        <div class="item">
+          <div class="panel panel-default">
+            <div class="panel-heading">
+              <h3 class="panel-title">방사능 정보</h3>
+            </div>
+            <div class="panel-body">
+              <canvas id="radioactive-chart-1min"></canvas>
+              <canvas id="radioactive-chart-10min"></canvas>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
     <script>
       window.$ = window.jQuery = require('jquery');
       const {ipcRenderer} = require('electron');
+      require('bootstrap');
     </script>
-
+    <script src="./node_modules/angular/angular.js"></script>
+    <script src="./js/freewall.js"></script>
     <script src="./js/index.js"></script>
   </body>
 </html>
