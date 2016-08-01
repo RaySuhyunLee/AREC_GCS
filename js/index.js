@@ -103,14 +103,12 @@ function sendCommand(command, callback) {
 var chartIds = [
   "#battery-voltage-chart",
   "#solar-voltage-chart",
-  "#current-dissapation-chart",
-  "#solar-current-chart",
   "#radioactive-chart-1min",
   "#radioactive-chart-10min",
 ];
 
 // index of packet which chart refers to
-var chartPacketIndexs = [15, 14, 13, 12, 11, 10];
+var chartPacketIndexs = [12, 11, 10, 9];
 
 var charts = [];
 

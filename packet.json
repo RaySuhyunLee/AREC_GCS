@@ -6,12 +6,6 @@
     "unit": "°C"
   },
   {
-    "name": "습도",
-    "signed": false,
-    "multiply": 0.01,
-    "unit": "%"
-  },
-  {
     "name": "Yaw",
     "signed": true,
     "multiply": 0.01,
@@ -70,18 +64,6 @@
     "signed": false,
     "multiply": 0.01,
     "unit": "msv/h"
-  },
-  {
-    "name": "태양 전지 발전 전류",
-    "signed": false,
-    "multiply": 0.01,
-    "unit": "A"
-  },
-  {
-    "name": "기기 소모 전류",
-    "signed": false,
-    "multiply": 0.01,
-    "unit": "A"
   },
   {
     "name": "태양 전지 발전 전압",
