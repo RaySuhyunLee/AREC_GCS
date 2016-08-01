@@ -2,8 +2,10 @@
 <html>
   <head>
     <meta charset="UTF-8">
-    <title>AREC_GCS</title>
+    <title>CanCrush_GCS</title>
     <link rel="stylesheet" href="node_modules/bootstrap/dist/css/bootstrap.min.css" />
+    <script src="node_modules/jquery/dist/jquery.min.js" ></script>
+    <script src="node_modules/bootstrap/dist/js/bootstrap.min.js" ></script>
     <style>
       body {
         /* background: #212222;
@@ -40,7 +42,7 @@
     </div>
 
     <div class="container-fluid">
-      <div id="panel-container" ng-app="panelApp" ng-controller="panelController">
+      <div id="panel-container" ng-app="panel" ng-controller="panelController">
         <div class="item">
           <div class="panel panel-default">
             <div class="panel-heading">
@@ -115,10 +117,12 @@
     </div>
 
     <script>
-      window.$ = window.jQuery = require('jquery');
-      const {ipcRenderer} = require('electron');
-      require('bootstrap');
+      //window.$ = window.jQuery = require('jquery');
+      //const {ipcRenderer} = require('electron');
+      //require('bootstrap');
     </script>
+
+    <script src="./node_modules/chart.js/dist/Chart.bundle.min.js"></script>
     <script src="./node_modules/angular/angular.js"></script>
     <script src="./js/freewall.js"></script>
     <script src="./js/index.js"></script>

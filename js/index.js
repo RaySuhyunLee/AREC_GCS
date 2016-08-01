@@ -1,6 +1,3 @@
-const Chart = require('./node_modules/chart.js/dist/Chart.bundle.min.js');
-const SerialPort = require('serialport');
-const PacketParser = require('./parser.js');
 
 // init freewall
 var wall = new Freewall("#panel-container");
@@ -15,27 +12,68 @@ wall.reset({
 });
 wall.fitWidth();
 
+var satData = null;
+var packetList
+$.getJSON('packet.json', (data) => {
+  packetList = data;
+
+  initAngular();
+  initChart();
+});;
+
+// attach ui event listeners
+$('#port-sync-button').on('click', (v) => {
+  $.get('/port', { }, (data) => {
+    $('#port-selector').empty();
+    ports = JSON.parse(data);
+    ports.forEach((port) => {
+      $('#port-selector').append("<option>" + port.comName + "</option>");
+    });
+  });
+});
+$('#connect-button').on('click', (v) => {
+  var portName = $('#port-selector').val();
+  var baudRate = $('#baudrate-selector').val();
+  $.get('/connect', {
+      'portname': portName,
+      'baudrate': baudRate 
+    },
+    (data) => {
+      console.log(data);
+
+      panelAppScope.startSync();
+    }
+  );
+});
+
 // angularjs setting
 var panelAppScope = null;
 function initAngular() {
-  var panelApp = angular.module('panelApp', []);
+  var panelApp = angular.module('panel', []);
 
-  panelApp.controller('panelController', ($scope) => {
+  panelApp.controller('panelController', ($scope, $http, $timeout, $interval) => {
     panelAppScope = $scope;
     $scope.data = satData;
     $scope.values = packetList;
+
+    $scope.sync = function() {
+      $http.get('/sync')
+        .success((res) => {
+          $scope.data = res.satData;
+        }
+      );
+    }
+
+    $scope.startSync = function() {
+      $scope.syncSchedule = $interval($scope.sync, 100);
+    }
+
+    $scope.stopSync = function() {
+      $interval.calcel($scope.syncSchedule);
+    }
   });
 }
-
-// packet set for satellite data visualization 
-var packetList;
-$.getJSON("packet.json", (json) => {
-  packetList = json;
-
-  initSerial();
-  initAngular();
-  initChart();
-});
+/*
 
 // serial port communication
 var port = null;
@@ -106,10 +144,11 @@ function sendCommand(command, callback) {
     if (callback) callback();
   });
 }
+*/
 
 // draw charts
 
-const chartIds = [
+var chartIds = [
   "#battery-voltage-chart",
   "#solar-voltage-chart",
   "#current-dissapation-chart",
@@ -119,9 +158,9 @@ const chartIds = [
 ];
 
 // index of packet which chart refers to
-const chartPacketIndexs = [15, 14, 13, 12, 11, 10];
+var chartPacketIndexs = [15, 14, 13, 12, 11, 10];
 
-var charts = []
+var charts = [];
 
 function initChart() {
   chartIds.forEach((chartId, idx) => {
