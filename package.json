@@ -4,11 +4,9 @@
   "description": "",
   "main": "main.js",
   "scripts": {
-    "start": "electron ."
+    "start": "node main.js"
   },
   "devDependencies": {
-    "electron-prebuilt": "1.2.6",
-    "electron-rebuild": "^1.1.5"
   },
   "dependencies": {
     "angular": "^1.5.8",
