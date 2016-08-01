@@ -90,7 +90,7 @@ app.get('/port', (req, res) => {
 app.get('/sync', (req, res) => {
   var data = {
     satData: satData,
-    lastUpdate: lastUpdate
+    lastUpdate: lastUpdate.getUTCMilliseconds()
   };
   res.writeHead(200, {'Context-Type': 'text/json'});
   res.end(JSON.stringify(data));

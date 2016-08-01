@@ -60,6 +60,8 @@ function initAngular() {
       $http.get('/sync')
         .success((res) => {
           $scope.data = res.satData;
+
+          updateChart(res.satData, res.lastUpdate);
         }
       );
     }
@@ -73,69 +75,20 @@ function initAngular() {
     }
   });
 }
-/*
 
-// serial port communication
-var port = null;
-var satData = [];
-var lastUpdate = null;
-
-function initSatData() {
-  satData = [];
-  for(var i=0; i<packetList.length; i++)
-    satData.push("-");
-}
-
-function initSerial() {
-  initSatData();
-}
-
-$('#port-sync-button').on('click', (v) => {
-  SerialPort.list((err, ports) => {
-    $('#port-selector').empty();
-    ports.forEach((port) => {
-      $('#port-selector').append("<option>" + port.comName + "</option>");
-    });
-  });
-});
-
-$('#connect-button').on('click', (v) => {
-  var portName = $('#port-selector').val();
-  var baudRate = parseInt($('#baudrate-selector').val());
-  port = new SerialPort(portName, {
-    parser: SerialPort.parsers.readline('c'),
-    baudRate: baudRate,
-  }, (err) => {
-    if (err) {
-      console.log("Error: " + err.message);
+function updateChart(satData, lastUpdate) {
+  charts.forEach((chart, i) => {
+    var newData = satData[chartPacketIndexs[i]];
+    var chartData = chart.data.datasets[0].data;
+    if (chartData.length > 100) {
+      chartData.shift();
+      chart.data.labels.shift();
     }
-
-    console.log('open serial');
-    
+    chartData.push(newData);
+    chart.data.labels.push(lastUpdate);
+    chart.update(0, true);
   });
-  
-  port.on('data', function (buf) {
-    satData = PacketParser.parse(buf);
-    lastUpdate = new Date();
-    console.log("recv> " + satData);
-    if (panelAppScope) {
-      panelAppScope.data = satData;
-      panelAppScope.$apply();
-    }
-
-    charts.forEach((chart, i) => {
-      var newData = satData[chartPacketIndexs[i]];
-      var chartData = chart.data.datasets[0].data;
-      if (chartData.length > 100) {
-        chartData.shift();
-        chart.data.labels.shift();
-      }
-      chartData.push(newData);
-      chart.data.labels.push(lastUpdate.getUTCMilliseconds());
-      chart.update(0, true);
-    });
-  });
-});
+};
 
 function sendCommand(command, callback) {
   port.write(command, () => {
@@ -144,7 +97,6 @@ function sendCommand(command, callback) {
     if (callback) callback();
   });
 }
-*/
 
 // draw charts
 
