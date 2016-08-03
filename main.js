@@ -38,14 +38,18 @@ function connect(portName, baud, response) {
   });
   
   port.on('data', function (buf) {
-    if (buf === 'OK' && commandResponse) {
+    if (buf === 'OK') {
+      if (!commandResponse)
+        return;
       if (commandSchedule) {
         clearInterval(commandSchedule);
+        commandSchedule = null;
       }
       commandResponse.json({mode: lastCommand});
       commandResponse = null;
       console.log("recv> " + buf);
     } else {
+      //console.log("debug> " + buf);
       satData = PacketParser.parse(buf);
       lastUpdate = new Date();
       console.log("recv> " + satData);
