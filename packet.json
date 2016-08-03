@@ -2,79 +2,79 @@
   {
     "name": "온도",
     "signed": true,
-    "multiply": 0.01,
+    "divide": 100,
     "unit": "°C"
   },
   {
     "name": "Yaw",
     "signed": true,
-    "multiply": 0.01,
+    "divide": 100,
     "unit": "°"
   },
   {
     "name": "Pitch",
     "signed": true,
-    "multiply": 0.01,
+    "divide": 100,
     "unit": "°"
   },
   {
     "name": "Roll",
     "signed": true,
-    "multiply": 0.01,
+    "divide": 100,
     "unit": "°"
   },
   {
     "name": "압력",
     "signed": false,
-    "multiply": 0.01,
+    "divide": 100,
     "unit": "mbar"
   },
   {
     "name": "고도",
     "signed": false,
-    "multiply": 0.01,
+    "divide": 100,
     "unit": "m"
   },
   {
     "name": "위도",
     "signed": false,
-    "multiply": 0.00001,
+    "divide": 10000,
     "unit": "°"
   },
   {
     "name": "경도",
     "signed": false,
-    "multiply": 0.00001,
+    "divide": 10000,
     "unit": "°"
   },
   {
     "name": "시간",
     "signed": false,
-    "multiply": 1,
+    "divide": 1,
     "unit": "초"
   },
   {
     "name": "방사능 10분 평균",
     "signed": false,
-    "multiply": 0.01,
+    "divide": 100,
     "unit": "msv/h"
   },
   {
     "name": "방사능 1분 평균",
     "signed": false,
-    "multiply": 0.01,
+    "divide": 100,
     "unit": "msv/h"
   },
   {
     "name": "태양 전지 발전 전압",
     "signed": false,
-    "multiply": 0.01,
+    "divide": 100,
     "unit": "V"
   },
   {
     "name": "배터리 보유 전압",
     "signed": false,
-    "multiply": 0.01,
+    "divide": 100,
     "unit": "V"
   }
 ]

@@ -21,8 +21,8 @@ function initSerial() {
   initSatData();
 }
 
-function connect(port, baud, response) {
-  var portName = port;
+function connect(portName, baud, response) {
+  var portName = portName;
   var baudRate = baud;
   port = new SerialPort(portName, {
     parser: SerialPort.parsers.readline('c'),
@@ -38,17 +38,28 @@ function connect(port, baud, response) {
   });
   
   port.on('data', function (buf) {
-    satData = PacketParser.parse(buf);
-    lastUpdate = new Date();
-    console.log("recv> " + satData);
+    if (buf === 'OK' && commandResponse) {
+      if (commandSchedule) {
+        clearInterval(commandSchedule);
+      }
+      commandResponse.json({mode: lastCommand});
+      commandResponse = null;
+      console.log("recv> " + buf);
+    } else {
+      satData = PacketParser.parse(buf);
+      lastUpdate = new Date();
+      console.log("recv> " + satData);
+    }
   });
 }
 
-function sendCommand(command, callback) {
+var commandSchedule = null;
+var commandResponse = null;
+var lastCommand = "";
+
+function sendCommand(command) {
   port.write(command, () => {
     console.log("send> " + command);
-    // TODO write log
-    if (callback) callback();
   });
 }
 
@@ -94,4 +105,18 @@ app.get('/sync', (req, res) => {
   };
   res.writeHead(200, {'Context-Type': 'text/json'});
   res.end(JSON.stringify(data));
+});
+
+app.get('/send', (req, res) => {
+  var command = req.query.command;
+  console.log(command);
+
+  if (commandSchedule) {
+    clearInterval(commandSchedule);
+  }
+  commandResponse = res;
+  lastCommand = command;
+  commandSchedule = setInterval(() => {
+    sendCommand(command);
+  }, 100);
 });

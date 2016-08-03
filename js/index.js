@@ -31,6 +31,7 @@ $('#port-sync-button').on('click', (v) => {
     });
   });
 });
+
 $('#connect-button').on('click', (v) => {
   var portName = $('#port-selector').val();
   var baudRate = $('#baudrate-selector').val();
@@ -44,6 +45,20 @@ $('#connect-button').on('click', (v) => {
       panelAppScope.startSync();
     }
   );
+});
+
+$('#ready-button, #save-battery-button, #rescue-button').on('click', (v) => {
+  var command;
+  var id = v.target.id;
+  if (id === 'ready-button') {
+    command = 'a';
+  } else if (id === 'save-battery-button') {
+    command = 'b';
+  } else if (id === 'rescue-button') {
+    command = 'c';
+  }
+
+  sendCommand(command, $(v.target));
 });
 
 // angularjs setting
@@ -90,11 +105,14 @@ function updateChart(satData, lastUpdate) {
   });
 };
 
-function sendCommand(command, callback) {
-  port.write(command, () => {
-    console.log("send> " + command);
-    // TODO write log
-    if (callback) callback();
+function sendCommand(command, context) {
+  $.get('/send', {
+    'command': command
+  }, (data) => {
+    console.log(data);
+
+    $('#ready-button, #save-battery-button, #rescue-button').removeClass('active');
+    context.addClass('active');
   });
 }
 
