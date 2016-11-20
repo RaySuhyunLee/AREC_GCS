@@ -1,0 +1,20 @@
+{
+  "name": "AREC_GCS",
+  "version": "0.1.0",
+  "description": "",
+  "main": "main.js",
+  "scripts": {
+    "start": "electron ."
+  },
+  "devDependencies": {
+    "electron-prebuilt": "1.2.6",
+    "electron-rebuild": "^1.1.5"
+  },
+  "dependencies": {
+    "angular": "^1.5.8",
+    "bootstrap": "^3.3.7",
+    "chart.js": "^2.2.0",
+    "jquery": "^3.1.0",
+    "serialport": "^4.0.1"
+  }
+}
